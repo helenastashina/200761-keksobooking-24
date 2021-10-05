@@ -45,8 +45,6 @@ const getRandomArrayUniqueElement = (elements) => {
 
 const getRandomPhoto = () => getRandomArrayElement(PHOTOS);
 
-/* eslint-disable no-unused-vars */
-
 const createAuthor = () => {
   let randomAuthorIndex = '0';
   randomAuthorIndex = (randomAuthorIndex + getRandomInteger(1, 10)).slice(-2);
@@ -54,8 +52,6 @@ const createAuthor = () => {
     avatar: `img/avatars/user${randomAuthorIndex}.png`,
   };
 };
-
-/* eslint-enable no-unused-vars */
 
 const createOffer = () => {
   const location = {
@@ -77,8 +73,6 @@ const createOffer = () => {
   };
 };
 
-/* eslint-disable no-unused-vars */
-
 const offersList = Array.from({length: MASS_LENGTH}, createOffer);
 
-/* eslint-enable no-unused-vars */
+window.console.log(createAuthor, offersList);
