@@ -38,9 +38,10 @@ const createOffer = () => {
     features: getRandomArrayUniqueElement(FEATURES),
     description: 'Со всеми удобствами',
     photos: Array.from({length: getRandomInteger(1, 10)}, getRandomPhoto),
+    author: createAuthor(),
   };
 };
 
 const offersList = Array.from({length: MASS_LENGTH}, createOffer);
 
-window.console.log(createAuthor, offersList);
+export {offersList};
