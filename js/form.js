@@ -44,6 +44,7 @@ const capacitySelectOptionList = capacitySelectElement.querySelectorAll('option'
 const typeSelectElement = document.querySelector('#type');
 const timeinSelectElement = document.querySelector('#timein');
 const timeoutSelectElement = document.querySelector('#timeout');
+const addressInputElement = document.querySelector('#address');
 
 const setFormActive = () => {
   formElement.classList.remove('ad-form--disabled');
@@ -59,7 +60,6 @@ const setFormActive = () => {
   });
 };
 
-
 const setFormDisable = () => {
   formElement.classList.add('ad-form--disabled');
   filterElement.classList.add('ad-form--disabled');
@@ -72,6 +72,10 @@ const setFormDisable = () => {
   filterFieldsetList.forEach((filterFieldsetListItem) => {
     filterFieldsetListItem.disabled = true;
   });
+};
+
+const setAddress = (coords) => {
+  addressInputElement.value = coords;
 };
 
 const setFilteredCapacity = (roomNumber) => {
@@ -131,5 +135,5 @@ timeoutSelectElement.addEventListener('change', () => {
 });
 
 setFormDisable();
-setFormActive();
 
+export {setFormActive, setAddress};
