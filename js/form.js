@@ -3,6 +3,33 @@ const MAX_TITLE_LENGTH = 100;
 const MIN_PRICE_VALUE = 0;
 const MAX_PRICE_VALUE = 1000000;
 const MAX_ROOM_NUMBER = 3;
+const HOUSING_TYPES = [
+  {
+    name: 'Бунгало',
+    code: 'bungalow',
+    price: 0,
+  },
+  {
+    name: 'Квартира',
+    code: 'flat',
+    price: 1000,
+  },
+  {
+    name: 'Отель',
+    code: 'hotel',
+    price: 3000,
+  },
+  {
+    name: 'Дом',
+    code: 'house',
+    price: 5000,
+  },
+  {
+    name: 'Дворец',
+    code: 'palace',
+    price: 10000,
+  },
+];
 
 const formElement = document.querySelector('.ad-form');
 const filterElement = document.querySelector('.map__filters');
@@ -14,6 +41,9 @@ const priceInputElement = document.querySelector('#price');
 const roomNumberSelectElement = document.querySelector('#room_number');
 const capacitySelectElement = document.querySelector('#capacity');
 const capacitySelectOptionList = capacitySelectElement.querySelectorAll('option');
+const typeSelectElement = document.querySelector('#type');
+const timeinSelectElement = document.querySelector('#timein');
+const timeoutSelectElement = document.querySelector('#timeout');
 
 const setFormActive = () => {
   formElement.classList.remove('ad-form--disabled');
@@ -83,6 +113,21 @@ priceInputElement.addEventListener('input', () => {
 roomNumberSelectElement.addEventListener('change', () => {
   const  currentValue = roomNumberSelectElement.value;
   setFilteredCapacity(currentValue);
+});
+
+typeSelectElement.addEventListener('change', () => {
+  const currentValue = typeSelectElement.value;
+  const minPriceValue = HOUSING_TYPES.find((type) => type.code === currentValue).price;
+  priceInputElement.placeholder = minPriceValue;
+  priceInputElement.min = minPriceValue;
+});
+
+timeinSelectElement.addEventListener('change', () => {
+  timeoutSelectElement.value = timeinSelectElement.value;
+});
+
+timeoutSelectElement.addEventListener('change', () => {
+  timeinSelectElement.value = timeoutSelectElement.value;
 });
 
 setFormDisable();
