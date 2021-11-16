@@ -1,3 +1,5 @@
+import {sendData} from './api.js';
+
 const MIN_TITLE_LENGTH = 30;
 const MAX_TITLE_LENGTH = 100;
 const MIN_PRICE_VALUE = 0;
@@ -30,21 +32,27 @@ const HOUSING_TYPES = [
     price: 10000,
   },
 ];
+const BASE_ADDRESS = {
+  name: 'Токио',
+  lat: 35.6895,
+  lng: 139.69171,
+};
 
 const formElement = document.querySelector('.ad-form');
 const filterElement = document.querySelector('.map__filters');
 const formSelectList = formElement.querySelectorAll('select');
 const formFieldsetList = formElement.querySelectorAll('fieldset');
 const filterFieldsetList = formElement.querySelectorAll('fieldset');
-const titleInputElement = document.querySelector('#title');
-const priceInputElement = document.querySelector('#price');
-const roomNumberSelectElement = document.querySelector('#room_number');
-const capacitySelectElement = document.querySelector('#capacity');
+const titleInputElement = formElement.querySelector('#title');
+const priceInputElement = formElement.querySelector('#price');
+const roomNumberSelectElement = formElement.querySelector('#room_number');
+const capacitySelectElement = formElement.querySelector('#capacity');
 const capacitySelectOptionList = capacitySelectElement.querySelectorAll('option');
-const typeSelectElement = document.querySelector('#type');
-const timeinSelectElement = document.querySelector('#timein');
-const timeoutSelectElement = document.querySelector('#timeout');
-const addressInputElement = document.querySelector('#address');
+const typeSelectElement = formElement.querySelector('#type');
+const timeinSelectElement = formElement.querySelector('#timein');
+const timeoutSelectElement = formElement.querySelector('#timeout');
+const addressInputElement = formElement.querySelector('#address');
+const resetButtonElement = formElement.querySelector('.ad-form__reset');
 
 const setFormActive = () => {
   formElement.classList.remove('ad-form--disabled');
@@ -90,6 +98,12 @@ const setFilteredCapacity = (roomNumber) => {
   capacitySelectElement.value = enableOptionElement.value;
 };
 
+const resetForm = () => {
+  formElement.reset();
+  filterElement.reset();
+  setAddress(`${BASE_ADDRESS.lat}, ${BASE_ADDRESS.lng}`);
+};
+
 titleInputElement.addEventListener('input', () => {
   const  currentValueLength = titleInputElement.value.length;
   if (currentValueLength < MIN_TITLE_LENGTH) {
@@ -132,6 +146,17 @@ timeinSelectElement.addEventListener('change', () => {
 
 timeoutSelectElement.addEventListener('change', () => {
   timeinSelectElement.value = timeoutSelectElement.value;
+});
+
+formElement.addEventListener('submit', (evt) => {
+  evt.preventDefault();
+  const formData = new FormData(evt.target);
+  sendData(resetForm, formData);
+});
+
+resetButtonElement.addEventListener('click', (evt) => {
+  evt.preventDefault();
+  resetForm();
 });
 
 setFormDisable();

@@ -1,5 +1,5 @@
 import {setFormActive, setAddress} from './form.js';
-import {offersList} from './data.js';
+import {getData} from './api.js';
 import {renderOfferCard} from './generator.js';
 
 const BASE_ADDRESS = {
@@ -26,8 +26,8 @@ const mainPinIcon = L.icon({
 
 const offerPinIcon = L.icon({
   iconUrl: '/img/pin.svg',
-  iconSize: [52, 52],
-  iconAnchor: [26, 52],
+  iconSize: [40, 40],
+  iconAnchor: [20, 40],
 });
 
 const mainPinMarker = L.marker(
@@ -44,11 +44,10 @@ const mainPinMarker = L.marker(
 const markerGroup = L.layerGroup().addTo(map);
 
 const createMarker = (point) => {
-  const currentCoords = point.address.split(', ');
   const offerPinMarker = L.marker(
     {
-      lat: currentCoords[0],
-      lng: currentCoords[1],
+      lat: point.location.lat,
+      lng: point.location.lng,
     },
     {
       icon: offerPinIcon,
@@ -68,13 +67,15 @@ L.tileLayer(
 
 mainPinMarker.addTo(map);
 
-offersList.forEach((offer) => {
-  createMarker(offer);
+getData((offers) => {
+  offers.forEach((offer) => {
+    createMarker(offer);
+  });
+  //renderSimilarList(wizards.slice(0, SIMILAR_WIZARD_COUNT));
 });
 
 mainPinMarker.on('moveend', (evt) => {
   const currentAddress = evt.target.getLatLng();
   setAddress(`${currentAddress.lat.toFixed(5)}, ${currentAddress.lng.toFixed(5)}`);
 });
-
 
