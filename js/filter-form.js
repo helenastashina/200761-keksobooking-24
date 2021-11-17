@@ -1,4 +1,8 @@
 const DEFAULT_VALUE = 'any';
+const GUEST_COUNT_1 = 1;
+const GUEST_COUNT_2 = 2;
+const LOW_PRICE_VALUE = 10000;
+const HIGH_PRICE_VALUE = 50000;
 const filterElement = document.querySelector('.map__filters');
 const typeFilterElement = filterElement.querySelector('#housing-type');
 const priceFilterElement = filterElement.querySelector('#housing-price');
@@ -73,13 +77,13 @@ const checkPrice = (currentValue, filterValue) => {
   let isCorrectPrice;
   switch (filterValue) {
     case 'middle':
-      isCorrectPrice = (currentValue >= 10000 && currentValue <= 50000);
+      isCorrectPrice = (currentValue >= LOW_PRICE_VALUE && currentValue <= HIGH_PRICE_VALUE);
       break;
     case 'low':
-      isCorrectPrice = currentValue < 10000;
+      isCorrectPrice = currentValue < LOW_PRICE_VALUE;
       break;
     case 'high':
-      isCorrectPrice = currentValue > 50000;
+      isCorrectPrice = currentValue > HIGH_PRICE_VALUE;
       break;
     default:
       isCorrectPrice = true;
@@ -94,13 +98,13 @@ const checkGuests = (currentValue, filterValue) => {
   let isCorrectValue;
   switch (filterValue) {
     case '1':
-      isCorrectValue = currentValue === 1;
+      isCorrectValue = currentValue === GUEST_COUNT_1;
       break;
     case '2':
-      isCorrectValue = currentValue === 2;
+      isCorrectValue = currentValue === GUEST_COUNT_2;
       break;
     case '0':
-      isCorrectValue = currentValue > 2;
+      isCorrectValue = currentValue > GUEST_COUNT_2;
       break;
     default:
       isCorrectValue = true;
