@@ -10,6 +10,8 @@ const BASE_ADDRESS = {
 
 const MAX_PIN_COUNT = 10;
 
+const BASE_MAP_ZOOM = 12;
+
 const map = L.map('map-canvas')
   .on('load', () => {
     setFormActive();
@@ -18,7 +20,7 @@ const map = L.map('map-canvas')
   .setView({
     lat: BASE_ADDRESS.lat,
     lng: BASE_ADDRESS.lng,
-  }, 12);
+  }, BASE_MAP_ZOOM);
 
 const mainPinIcon = L.icon({
   iconUrl: '/img/main-pin.svg',
@@ -77,8 +79,21 @@ const renderOfferPin = (offerList) => {
   clearOfferPin();
   offerList
     .slice()
-    //.sort(offerList)
     .filter((offer) => checkOfferList(offer))
+    .slice(0, MAX_PIN_COUNT)
+    .forEach((offer) => {
+      createMarker(offer);
+    });
+};
+
+const resetMap = (offerList) => {
+  clearOfferPin();
+  map.setView({
+    lat: BASE_ADDRESS.lat,
+    lng: BASE_ADDRESS.lng,
+  }, BASE_MAP_ZOOM);
+  offerList
+    .slice()
     .slice(0, MAX_PIN_COUNT)
     .forEach((offer) => {
       createMarker(offer);
@@ -90,4 +105,4 @@ mainPinMarker.on('moveend', (evt) => {
   setAddress(`${currentAddress.lat.toFixed(5)}, ${currentAddress.lng.toFixed(5)}`);
 });
 
-export {renderOfferPin, clearOfferPin};
+export {resetMap, renderOfferPin, clearOfferPin};

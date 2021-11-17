@@ -14,6 +14,14 @@ const filterList = {
   features: [],
 };
 
+const clearList = () => {
+  filterList.type = DEFAULT_VALUE;
+  filterList.price = DEFAULT_VALUE;
+  filterList.rooms = DEFAULT_VALUE;
+  filterList.guests = DEFAULT_VALUE;
+  filterList.features = [];
+};
+
 const setTypeFilter = (cb) => {
   typeFilterElement.addEventListener('change', (evt) => {
     filterList.type = evt.target.value;
@@ -109,4 +117,4 @@ const checkOfferList = (offer) => checkType(offer.offer.type, filterList.type) &
   checkGuests(offer.offer.guests, filterList.guests) &&
   checkFeatures(offer.offer.features, filterList.features);
 
-export {checkOfferList, setTypeFilter, setPriceFilter, setRoomsFilter, setGuestsFilter, setFeaturesFilter};
+export {clearList, checkOfferList, setTypeFilter, setPriceFilter, setRoomsFilter, setGuestsFilter, setFeaturesFilter};
