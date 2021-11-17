@@ -1,4 +1,5 @@
 import {sendData} from './api.js';
+import {clearList} from './filter-form.js';
 
 const MIN_TITLE_LENGTH = 30;
 const MAX_TITLE_LENGTH = 100;
@@ -101,6 +102,7 @@ const setFilteredCapacity = (roomNumber) => {
 const resetForm = () => {
   formElement.reset();
   filterElement.reset();
+  clearList();
   setAddress(`${BASE_ADDRESS.lat}, ${BASE_ADDRESS.lng}`);
 };
 
@@ -148,17 +150,21 @@ timeoutSelectElement.addEventListener('change', () => {
   timeinSelectElement.value = timeoutSelectElement.value;
 });
 
-formElement.addEventListener('submit', (evt) => {
-  evt.preventDefault();
-  const formData = new FormData(evt.target);
-  sendData(resetForm, formData);
-});
+const setClearForm = (cb) => {
+  formElement.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    const formData = new FormData(evt.target);
+    sendData(resetForm, formData);
+    cb();
+  });
 
-resetButtonElement.addEventListener('click', (evt) => {
-  evt.preventDefault();
-  resetForm();
-});
+  resetButtonElement.addEventListener('click', (evt) => {
+    evt.preventDefault();
+    resetForm();
+    cb();
+  });
+};
 
 setFormDisable();
 
-export {setFormActive, setAddress};
+export {setFormActive, setAddress, setClearForm};

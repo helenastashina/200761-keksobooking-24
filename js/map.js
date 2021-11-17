@@ -1,12 +1,16 @@
 import {setFormActive, setAddress} from './form.js';
-import {getData} from './api.js';
 import {renderOfferCard} from './generator.js';
+import {checkOfferList} from './filter-form.js';
 
 const BASE_ADDRESS = {
   name: 'Токио',
   lat: 35.6895,
   lng: 139.69171,
 };
+
+const MAX_PIN_COUNT = 10;
+
+const BASE_MAP_ZOOM = 12;
 
 const map = L.map('map-canvas')
   .on('load', () => {
@@ -16,7 +20,7 @@ const map = L.map('map-canvas')
   .setView({
     lat: BASE_ADDRESS.lat,
     lng: BASE_ADDRESS.lng,
-  }, 12);
+  }, BASE_MAP_ZOOM);
 
 const mainPinIcon = L.icon({
   iconUrl: '/img/main-pin.svg',
@@ -67,15 +71,38 @@ L.tileLayer(
 
 mainPinMarker.addTo(map);
 
-getData((offers) => {
-  offers.forEach((offer) => {
-    createMarker(offer);
-  });
-  //renderSimilarList(wizards.slice(0, SIMILAR_WIZARD_COUNT));
-});
+const clearOfferPin = () => {
+  markerGroup.clearLayers();
+};
+
+const renderOfferPin = (offerList) => {
+  clearOfferPin();
+  offerList
+    .slice()
+    .filter((offer) => checkOfferList(offer))
+    .slice(0, MAX_PIN_COUNT)
+    .forEach((offer) => {
+      createMarker(offer);
+    });
+};
+
+const resetMap = (offerList) => {
+  clearOfferPin();
+  map.setView({
+    lat: BASE_ADDRESS.lat,
+    lng: BASE_ADDRESS.lng,
+  }, BASE_MAP_ZOOM);
+  offerList
+    .slice()
+    .slice(0, MAX_PIN_COUNT)
+    .forEach((offer) => {
+      createMarker(offer);
+    });
+};
 
 mainPinMarker.on('moveend', (evt) => {
   const currentAddress = evt.target.getLatLng();
   setAddress(`${currentAddress.lat.toFixed(5)}, ${currentAddress.lng.toFixed(5)}`);
 });
 
+export {resetMap, renderOfferPin, clearOfferPin};
