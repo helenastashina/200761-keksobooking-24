@@ -32,4 +32,46 @@ const getRandomArrayUniqueElement = (elements) => {
   return randomArrayUniqueElement;
 };
 
-export {getRandomInteger, getRandomFloat, getRandomArrayElement, getRandomArrayUniqueElement};
+const isEscapeKey = (evt) => evt.key === 'Escape';
+
+let alertContainer;
+
+function removeAlert() {
+  alertContainer.remove();
+  document.removeEventListener('keydown', onAlertEscKeydown);
+}
+
+function onAlertEscKeydown(evt) {
+  if (isEscapeKey(evt)) {
+    evt.preventDefault();
+    removeAlert();
+  }
+}
+
+const showAlert = (alertType) => {
+  const successTemplateElement = document.querySelector('#success').content.querySelector('.success');
+  const errorTemplateElement = document.querySelector('#error').content.querySelector('.error');
+  const errorDataTemplate = '<p class="error__message">Не удалось загрузить данные</p>';
+
+  switch (alertType) {
+    case 'error': alertContainer = errorTemplateElement.cloneNode(true);
+      break;
+    case 'success': alertContainer = successTemplateElement.cloneNode(true);
+      break;
+    case 'errorData': alertContainer = document.createElement('div');
+      alertContainer.innerHTML = errorDataTemplate;
+      alertContainer.classList.add('error');
+      break;
+    default: break;
+  }
+
+  alertContainer.addEventListener('click', () => {
+    removeAlert();
+  });
+
+  document.addEventListener('keydown', onAlertEscKeydown);
+
+  document.body.append(alertContainer);
+};
+
+export {getRandomInteger, getRandomFloat, getRandomArrayElement, getRandomArrayUniqueElement, showAlert};
