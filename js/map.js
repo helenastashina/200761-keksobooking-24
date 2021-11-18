@@ -92,6 +92,7 @@ const resetMap = (offerList) => {
     lat: BASE_ADDRESS.lat,
     lng: BASE_ADDRESS.lng,
   }, BASE_MAP_ZOOM);
+  mainPinMarker.setLatLng([BASE_ADDRESS.lat, BASE_ADDRESS.lng]);
   offerList
     .slice()
     .slice(0, MAX_PIN_COUNT)

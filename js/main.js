@@ -4,6 +4,7 @@ import {renderOfferPin, resetMap} from './map.js';
 import {setTypeFilter, setPriceFilter, setRoomsFilter, setGuestsFilter, setFeaturesFilter} from './filter-form.js';
 import {getData} from './api.js';
 import {setClearForm} from './form.js';
+import './preview.js';
 
 getData((offers) => {
   renderOfferPin(offers);

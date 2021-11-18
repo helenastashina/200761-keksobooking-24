@@ -1,4 +1,4 @@
-const OFFER_TYPE = [
+const OFFER_TYPES = [
   {
     type: 'flat',
     name: 'Квартира',
@@ -29,7 +29,7 @@ const renderOfferCard = (offer) => {
   cardElement.querySelector('.popup__text--address').textContent = `${offer.location.lat}, ${offer.location.lng}`;
   cardElement.querySelector('.popup__text--price').textContent = `${offer.offer.price} ₽/ночь`;
   if (offer.offer.type) {
-    const cardOfferType =  OFFER_TYPE.find((offerType) => offerType.type === offer.offer.type);
+    const cardOfferType =  OFFER_TYPES.find((offerType) => offerType.type === offer.offer.type);
     cardElement.querySelector('.popup__type').textContent = cardOfferType.name;
   }
   cardElement.querySelector('.popup__text--capacity').textContent = `${offer.offer.rooms} комнаты для ${offer.offer.guests} гостей`;
@@ -55,17 +55,22 @@ const renderOfferCard = (offer) => {
 
   const photosContainerElement = cardElement.querySelector('.popup__photos');
   const photosTemplateElement = photosContainerElement.querySelector('.popup__photo');
+  const photosContainerFragment =  document.createDocumentFragment();
+
+  photosContainerElement.innerText = '';
 
   if (offer.offer.photos && offer.offer.photos.length > 0) {
-    photosContainerElement.innerText = '';
+    photosContainerFragment.innerText = '';
     offer.offer.photos.forEach((photo) => {
       const photosElement = photosTemplateElement.cloneNode(true);
       photosElement.src = photo;
-      photosContainerElement.appendChild(photosElement);
+      photosContainerFragment.appendChild(photosElement);
     });
   } else {
-    photosContainerElement.innerText = '';
+    photosContainerFragment.innerText = '';
   }
+
+  photosContainerElement.appendChild(photosContainerFragment);
 
   cardElement.querySelector('.popup__avatar').src = offer.author.avatar;
 
