@@ -1,6 +1,6 @@
 import {sendData} from './api.js';
 import {clearList} from './filter-form.js';
-import {clearFilePreview} from "./preview.js";
+import {clearFilePreview} from './preview.js';
 
 const MIN_TITLE_LENGTH = 30;
 const MAX_TITLE_LENGTH = 100;
